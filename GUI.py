@@ -24,89 +24,25 @@ for element in comlist:
 ser=serial.Serial(str(connected[0]))
 gui= Tk()
 
-def HosoPop(source):
+def HosoPop():
     
     varRow = 410
     varColumn = 0
 
     for button in buttons:
-        command = lambda x=button: select(x,source)
+        command = lambda x=button: select(x)
         Button(gui,text= button,width=3,height=2,command=command,font=("",18)).place(x=varColumn,y=varRow)
         varColumn +=58
 
-def select(value,ent):
+def select(value):
 
-    if ent=='ent_extravol':
-        if value == "<":
-            ent_extravol.delete(0,END)
-        else :
-            ent_extravol.insert(END,value)
-    elif ent=='ent_extramtd':
-        if value == "<":
-            ent_extramtd.delete(0,END)
-        else :
-            ent_extramtd.insert(END,value)
-    elif ent=='ent_vol1':
-        if value == "<":
-            ent_vol1.delete(0,END)
-        else :
-            ent_vol1.insert(END,value)
-    elif ent=='ent_mtd1':
-        if value == "<":
-            ent_mtd1.delete(0,END)
-        else :
-            ent_mtd1.insert(END,value)
-    elif ent=='ent_tid1':
-        if value == "<":
-            ent_tid1.delete(0,END)
-        else :
-           ent_tid1.insert(END,value)
-    elif ent=='ent_vol2':
-        if value == "<":
-            ent_vol2.delete(0,END)
-        else :
-            ent_vol2.insert(END,value)
-    elif ent=='ent_mtd2':
-        if value == "<":
-            ent_mtd2.delete(0,END)
-        else :
-            ent_mtd2.insert(END,value)
-    elif ent=='ent_tid2':
-        if value == "<":
-            ent_tid2.delete(0,END)
-        else :
-           ent_tid2.insert(END,value)
-    elif ent=='ent_vol3':
-        if value == "<":
-            ent_vol3.delete(0,END)
-        else :
-            ent_vol3.insert(END,value)
-    elif ent=='ent_mtd3':
-        if value == "<":
-            ent_mtd3.delete(0,END)
-        else :
-            ent_mtd3.insert(END,value)
-    elif ent=='ent_tid3':
-        if value == "<":
-            ent_tid3.delete(0,END)
-        else :
-           ent_tid3.insert(END,value)          
-    elif ent=='ent_vol4':
-        if value == "<":
-            ent_vol4.delete(0,END)
-        else :
-            ent_vol4.insert(END,value)
-    elif ent=='ent_mtd4':
-        if value == "<":
-            ent_mtd4.delete(0,END)
-        else :
-            ent_mtd4.insert(END,value)
-    elif ent=='ent_tid4':
-        if value == "<":
-            ent_tid4.delete(0,END)
-        else :
-           ent_tid4.insert(END,value)
 
+    if value == "<" :
+        gui.focus_displayof().delete(0,END)
+
+    else :
+        gui.focus_displayof().insert(END,value)
+        
 def apply():
     global accvol,vol,maxtid,tidpunkt,extravol,extratid
     
@@ -347,21 +283,21 @@ ent_tid4.place(x=col3,y=row5)
 ent_avl4=Entry(gui,width=6,justify=RIGHT,font=("", fnts))
 ent_avl4.place(x=col4,y=row5)
 
-ent_extravol.bind("<Button-1>", lambda e: HosoPop('ent_extravol'))
-ent_extramtd.bind("<Button-1>", lambda e: HosoPop('ent_extramtd'))
-ent_tid1.bind("<Button-1>", lambda e: HosoPop('ent_tid1'))
-ent_vol1.bind("<Button-1>", lambda e: HosoPop('ent_vol1'))
-ent_mtd1.bind("<Button-1>", lambda e: HosoPop('ent_mtd1'))
-ent_tid1.bind("<Button-1>", lambda e: HosoPop('ent_tid1'))
-ent_vol2.bind("<Button-1>", lambda e: HosoPop('ent_vol2'))
-ent_mtd2.bind("<Button-1>", lambda e: HosoPop('ent_mtd2'))
-ent_tid2.bind("<Button-1>", lambda e: HosoPop('ent_tid2'))
-ent_vol3.bind("<Button-1>", lambda e: HosoPop('ent_vol3'))
-ent_mtd3.bind("<Button-1>", lambda e: HosoPop('ent_mtd3'))
-ent_tid3.bind("<Button-1>", lambda e: HosoPop('ent_tid3'))
-ent_vol4.bind("<Button-1>", lambda e: HosoPop('ent_vol4'))
-ent_mtd4.bind("<Button-1>", lambda e: HosoPop('ent_mtd4'))
-ent_tid4.bind("<Button-1>", lambda e: HosoPop('ent_tid4'))
+ent_extravol.bind("<Button-1>", lambda e: HosoPop())
+ent_extramtd.bind("<Button-1>", lambda e: HosoPop())
+ent_tid1.bind("<Button-1>", lambda e: HosoPop())
+ent_vol1.bind("<Button-1>", lambda e: HosoPop())
+ent_mtd1.bind("<Button-1>", lambda e: HosoPop())
+ent_tid1.bind("<Button-1>", lambda e: HosoPop())
+ent_vol2.bind("<Button-1>", lambda e: HosoPop())
+ent_mtd2.bind("<Button-1>", lambda e: HosoPop())
+ent_tid2.bind("<Button-1>", lambda e: HosoPop())
+ent_vol3.bind("<Button-1>", lambda e: HosoPop())
+ent_mtd3.bind("<Button-1>", lambda e: HosoPop())
+ent_tid3.bind("<Button-1>", lambda e: HosoPop())
+ent_vol4.bind("<Button-1>", lambda e: HosoPop())
+ent_mtd4.bind("<Button-1>", lambda e: HosoPop())
+ent_tid4.bind("<Button-1>", lambda e: HosoPop())
 
 gui.geometry("680x480+0+0")
 
