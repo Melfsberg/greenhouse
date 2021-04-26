@@ -283,21 +283,9 @@ ent_tid4.place(x=col3,y=row5)
 ent_avl4=Entry(gui,width=6,justify=RIGHT,font=("", fnts))
 ent_avl4.place(x=col4,y=row5)
 
-ent_extravol.bind("<Button-1>", lambda e: HosoPop())
-ent_extramtd.bind("<Button-1>", lambda e: HosoPop())
-ent_tid1.bind("<Button-1>", lambda e: HosoPop())
-ent_vol1.bind("<Button-1>", lambda e: HosoPop())
-ent_mtd1.bind("<Button-1>", lambda e: HosoPop())
-ent_tid1.bind("<Button-1>", lambda e: HosoPop())
-ent_vol2.bind("<Button-1>", lambda e: HosoPop())
-ent_mtd2.bind("<Button-1>", lambda e: HosoPop())
-ent_tid2.bind("<Button-1>", lambda e: HosoPop())
-ent_vol3.bind("<Button-1>", lambda e: HosoPop())
-ent_mtd3.bind("<Button-1>", lambda e: HosoPop())
-ent_tid3.bind("<Button-1>", lambda e: HosoPop())
-ent_vol4.bind("<Button-1>", lambda e: HosoPop())
-ent_mtd4.bind("<Button-1>", lambda e: HosoPop())
-ent_tid4.bind("<Button-1>", lambda e: HosoPop())
+for b in [ent_extravol, ent_extramtd, ent_tid1, ent_vol1, ent_mtd1, ent_tid2, ent_vol2, ent_mtd2,
+           ent_tid3, ent_vol3, ent_mtd3, ent_tid4, ent_vol4, ent_mtd4]:
+    b.bind("<Button-1>", lambda e: HosoPop())
 
 gui.geometry("680x480+0+0")
 
