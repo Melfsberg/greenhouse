@@ -4,8 +4,8 @@ import serial.tools.list_ports
 
 time1 = ''
 accvol=[0,0,0,0]
-vol=[10,10,10,10]
-maxtid=[60,60,60,60]
+vol=[2,2,2,2]
+maxtid=[10,10,10,10]
 flagga=[1,1,1,1]
 
 extravol=5
@@ -82,8 +82,8 @@ def reset():
     extravol=5
     extratid=5
     accvol=[0,0,0,0]
-    vol=[10,10,10,10]
-    maxtid=[60,60,60,60]
+    vol=[2,2,2,2]
+    maxtid=[10,10,10,10]
     tidpunkt=['18:00','18:05','18:10','18:15']
         
     updategui()
