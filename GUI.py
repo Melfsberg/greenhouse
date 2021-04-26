@@ -77,7 +77,7 @@ def cancel():
     updategui()
 
 def reset():
-    global accvol,vol,maxtid,extravol,extratid
+    global accvol,vol,maxtid,extravol,extratid,tidpunkt
     
     extravol=5
     extratid=5
