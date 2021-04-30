@@ -115,7 +115,6 @@ class MainGUI:
         Button(gui, text="Vattna 4", command= lambda:[threading.Thread(target=vattna,args=[4,self.ent_extravol.get(),self.ent_extramtd.get()]).start()],
                height = bhgt, width = bwdt,font=("", bfts)).place(x=col6, y=row5)
 
-
         Label(gui,text="Volym dl",font=("", fnts)).place(x=col1,y=row1)
         Label(gui,text="Maxtid s",font=("", fnts)).place(x=col2,y=row1)
         Label(gui,text="Tid hh:mm",font=("", fnts)).place(x=col3,y=row1)
