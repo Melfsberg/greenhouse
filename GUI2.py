@@ -21,8 +21,7 @@ for element in comlist:
 print("Connected COM ports: " + str(connected))
 
 if len(connected)>0:
-    ser=serial.Serial(str(connected[0]))
-      
+    ser=serial.Serial(str(connected[0]))      
         
 def save_settings(file_name):
     global accvol,vol,maxtid,tidpunkt,extravol,extratid
@@ -39,14 +38,13 @@ def load_settings(file_name):
     except:
         print('no file')
 
-
 def check():
         
     global vol, maxtid, tidpunkt,flagga,gui
     
     for n in range(0,4):
         if tidpunkt[n]==time.strftime('%H:%M') and flagga[n]:
-            vattna(n+1,vol[n],maxtid[n])
+            threading.Thread(vattna(n+1,vol[n],maxtid[n])).start()
             gui.updategui()
             flagga[n]=0
     
@@ -55,34 +53,41 @@ def check():
             if (int(tid[3:5]))+5 % 60 < int(time.strftime('%M')):
                 flagga[n]=1
                     
-    threading.Timer(1, check).start()                
+    threading.Timer(1, check).start()               
                 
 
 def vattna(slinga,volym,tid):
     
     global accvol
     cmd=str(slinga) + ',' + str(volym) + ',' + str(tid) + '\r'
+    vol_cur=int(accvol[slinga-1])
     
     if 'ser' in globals():
         ser.write(cmd.encode('ascii'))
     
+        
         while True:
             tmp=ser.readline()
             tmp=tmp.decode('ascii')
             tmp=tmp.split(',')
             channel=int(tmp[0])
             volume=int(tmp[1])
+            accvol[slinga-1]=vol_cur+volume
+            gui.updategui()
+            time.sleep(.1)
                             
             if channel==-1:         
-                break
-      
-        accvol[slinga-1]=accvol[slinga-1]+(volume)
-        updategui()
+                break     
 
     else:
-        time.sleep(2)
-        accvol[slinga-1]=accvol[slinga-1]+2        
+ 
+        while accvol[slinga-1]<int(volym):
+
+            accvol[slinga-1]+=1
+            gui.updategui()
+            time.sleep(1)
        
+        
     save_settings('settings.dat')
     
 class MainGUI:
@@ -101,10 +106,15 @@ class MainGUI:
         Button(gui, text="Ångra", command = self.cancel,  height = bhgt, width = bwdt,font=("", bfts)).place(x=colb3, y=row7)
         Button(gui, text="Reset", command = self.reset,  height = bhgt, width = bwdt,font=("", bfts)).place(x=colb2, y=row7)
 
-        Button(gui, text="Vattna 1",command= lambda: [vattna(1,self.ent_extravol.get(),self.ent_extramtd.get()),self.updategui()],  height = bhgt, width = bwdt,font=("", bfts)).place(x=col6, y=row2)
-        Button(gui, text="Vattna 2", command= lambda:[vattna(2,self.ent_extravol.get(),self.ent_extramtd.get()),self.updategui()],  height = bhgt, width = bwdt,font=("", bfts)).place(x=col6, y=row3)
-        Button(gui, text="Vattna 3", command= lambda:[vattna(3,self.ent_extravol.get(),self.ent_extramtd.get()),self.updategui()],  height = bhgt, width = bwdt,font=("", bfts)).place(x=col6, y=row4)
-        Button(gui, text="Vattna 4", command= lambda:[vattna(4,self.ent_extravol.get(),self.ent_extramtd.get()),self.updategui()],  height = bhgt, width = bwdt,font=("", bfts)).place(x=col6, y=row5)
+        Button(gui, text="Vattna 1",command= lambda: [threading.Thread(target=vattna,args=[1,self.ent_extravol.get(),self.ent_extramtd.get()]).start()],
+               height = bhgt, width = bwdt,font=("", bfts)).place(x=col6, y=row2)
+        Button(gui, text="Vattna 2", command= lambda:[threading.Thread(target=vattna,args=[2,self.ent_extravol.get(),self.ent_extramtd.get()]).start()],
+               height = bhgt, width = bwdt,font=("", bfts)).place(x=col6, y=row3)
+        Button(gui, text="Vattna 3", command= lambda:[threading.Thread(target=vattna,args=[3,self.ent_extravol.get(),self.ent_extramtd.get()]).start()],
+               height = bhgt, width = bwdt,font=("", bfts)).place(x=col6, y=row4)
+        Button(gui, text="Vattna 4", command= lambda:[threading.Thread(target=vattna,args=[4,self.ent_extravol.get(),self.ent_extramtd.get()]).start()],
+               height = bhgt, width = bwdt,font=("", bfts)).place(x=col6, y=row5)
+
 
         Label(gui,text="Volym dl",font=("", fnts)).place(x=col1,y=row1)
         Label(gui,text="Maxtid s",font=("", fnts)).place(x=col2,y=row1)
@@ -262,6 +272,10 @@ class MainGUI:
         accvol=[0,0,0,0]    
         save_settings('settings.dat')
         self.updategui()
+        
+    def on_closing(self):
+        self.gui.destroy()
+        exit()
 
 
 load_settings('settings.dat')
@@ -271,6 +285,8 @@ root=Tk()
 gui=MainGUI(root)
 gui.tick()
 gui.updategui()
+
 check()
 
+root.protocol("WM_DELETE_WINDOW", gui.on_closing)
 root.mainloop()
